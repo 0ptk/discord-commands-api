@@ -1,5 +1,7 @@
 # Discord Commands Api
 [<img src="https://img.shields.io/badge/ptk%238135-%237289DA.svg?&logo=discord&logoColor=white" />](https://discord.com/)
+[<img src="https://img.shields.io/github/release/0ptk/discord-commands-api" />](https://github.com/0ptk/discord-commands-api/releases/)
+[<img src="https://img.shields.io/github/downloads/0ptk/discord-commands-api/total" />](https://github.com/0ptk/discord-commands-api/releases/)
 * If you have a bug or suggestion, report to me on discord <b>ptk#8135</b>
 
 ## 📖 Example
