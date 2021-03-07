@@ -9,8 +9,9 @@
 ### Example Main class
 ```java
 public class DiscordBot {
+  private static final CommandManager commandManager = new CommandManager();
   public static void main(String[] args) {
-    CommandManager.registerCommand(new ExampleCommand());
+    commandManager.registerCommand(new ExampleCommand());
     try {
       JDABuilder builder = JDABuilder.create(
           "token",
@@ -18,48 +19,49 @@ public class DiscordBot {
           GatewayIntent.GUILD_MESSAGES
       );
 
-      builder.addEventListeners(new CommandListener());
+      builder.addEventListeners(new CommandListener(commandManager));
       builder.build();
     } catch (LoginException e) {
       e.printStackTrace();
     }
+  }
+
+  public CommandManager getCommandManager() {
+    return commandManager;
   }
 }
 ```
 
 ### Example Command
 ```java
-public class ExampleCommand implements Command {
+@CommandInfo(
+    name = "help",
+    usage = CommandConfig.PREFIX + "help <page>",
+    minArguments = 2,
+    aliases = {"help1", "help2"},
+    onlyOwners = false,
+    onlySupportedServer = false,
+    permissions = {Permission.ADMINISTRATOR, Permission.BAN_MEMBERS}
+)
+public class ExampleCommand extends Command {
   @Override
-  public CommandInfo getInfo() {
-    return new CommandInfo(
-        "help", //name
-        CommandConfig.PREFIX + "help <page>", //usage
-        2, //min arguments
-        new String[]{"help2", "help3"}, // aliases
-        true, //only for owners
-        false, //only ur server
-        Permission.VIEW_CHANNEL, Permission.BAN_MEMBERS); //permissions
-    //no permissions = replace permissions to: new Permission[]{});
-  }
-
-  @Override
-  public void handle(MessageReceivedEvent event, String... args) {
+  public void execute(MessageReceivedEvent event, String... arguments) {
     TextChannel textChannel = event.getTextChannel();
-    if (args[1].equals("1")) {
+    if (arguments[1].equals("1")) {
       textChannel.sendMessage("1").complete();
     } else {
       textChannel.sendMessage("2").complete();
     }
   }
 }
+
 ```
 
 ## 🔧 Code
 
 ### Registry command in main:
 ```java
-CommandManager.registerCommand(new ExampleCommand());
+commandManager.registerCommand(new ExampleCommand());
 ```
 
 ### To bot working you must register listener in main
